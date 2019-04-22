@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+
 //using the new image loader class..
 #define STB_IMAGE_IMPLEMENTATION
 #include <utilities\stb_image.h>
