@@ -59,11 +59,11 @@ int main()
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
 	float vertices[] = {
-		// positions           // texture coords
-		0.5f,  0.5f, 0.0f,    1.0f, 1.0f, // top right
-		0.5f, -0.5f, 0.0f,    1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.0f,    0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f,    0.0f, 1.0f  // top left 
+		// positions          // texture coords
+		0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // top right
+		0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // bottom left
+		-0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // top left 
 	};
 	unsigned int indices[] = {
 		0, 1, 3, // first triangle
@@ -167,52 +167,18 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
-
+		// create transformations
 		glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-											   // first container
-											   // ---------------
 		transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
 		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		// get their uniform location and set matrix (using glm::value_ptr)
+
+		// get matrix's uniform location and set matrix
+		ourShader.use();
 		unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
-		// with the uniform matrix set, draw the first container
+		// render container
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-		// second transformation
-		// ---------------------
-		transform = glm::mat4(1.0f); // reset it to identity matrix
-		transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
-		float scaleAmount = sin(glfwGetTime());
-		transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform[0][0]); // this time take the matrix value array's first element as its memory pointer value
-
-																		 // now with the uniform matrix being replaced with new transformations, draw it again.
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-		// third transformation
-		// ---------------------
-		transform = glm::mat4(1.0f); // reset it to identity matrix
-		transform = glm::translate(transform, glm::vec3(0.5f, 0.5f, 0.0f));
-		scaleAmount = cos(glfwGetTime());
-		transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform[0][0]); // this time take the matrix value array's first element as its memory pointer value
-
-																		 // now with the uniform matrix being replaced with new transformations, draw it again.
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-		// fourth transformation
-		// ---------------------
-		transform = glm::mat4(1.0f); // reset it to identity matrix
-		transform = glm::translate(transform, glm::vec3(-0.5f, -0.5f, 0.0f));
-		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, -1.0f));
-		// get their uniform location and set matrix (using glm::value_ptr)
-		transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform)); // this time take the matrix value array's first element as its memory pointer value
-
-																		 // now with the uniform matrix being replaced with new transformations, draw it again.
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
