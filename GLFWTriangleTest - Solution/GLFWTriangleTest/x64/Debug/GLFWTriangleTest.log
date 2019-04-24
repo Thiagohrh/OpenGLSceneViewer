@@ -1,3 +1,6 @@
-﻿  SourceOFTheTriangle.cpp
-  GLFWTriangleTest.vcxproj -> C:\Users\thiag\Documents\GitHub\OpenGL\OpenGL_Pipeline\GLFWTriangleTest - Solution\x64\Debug\GLFWTriangleTest.exe
-  GLFWTriangleTest.vcxproj -> C:\Users\thiag\Documents\GitHub\OpenGL\OpenGL_Pipeline\GLFWTriangleTest - Solution\x64\Debug\GLFWTriangleTest.pdb (Partial PDB)
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (GLFWTriangleTest.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  glad.c
+  SourceOFTheTriangle.cpp
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  GLFWTriangleTest.vcxproj -> C:\Users\thiagorh\Downloads\OpenGLSceneViewer-master\GLFWTriangleTest - Solution\x64\Debug\Exercise1A.exe
+  GLFWTriangleTest.vcxproj -> C:\Users\thiagorh\Downloads\OpenGLSceneViewer-master\GLFWTriangleTest - Solution\x64\Debug\Exercise1A.pdb (Partial PDB)
