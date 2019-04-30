@@ -80,6 +80,13 @@ public:
 			Position += Right * velocity;
 	}
 
+	void ChangeCameraPosition(glm::vec3 _pos, float _angle)
+	{
+		Position = _pos;
+		Yaw = _angle;
+		updateCameraVectors();
+	}
+
 	// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
 	{

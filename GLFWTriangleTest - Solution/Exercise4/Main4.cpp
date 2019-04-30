@@ -235,42 +235,36 @@ void processInput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE))
 		glfwSetWindowShouldClose(window, true);
 
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) // W Moves forward
 		camera.ProcessKeyboard(FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) // S Moves backward
+		camera.ProcessKeyboard(BACKWARD, deltaTime); 
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) // A Moves leftward
 		camera.ProcessKeyboard(LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) // D Moves rightward
 		camera.ProcessKeyboard(RIGHT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) // TAB Switches which model is being transformed
 		SwitchModel();
-	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_RELEASE)
+	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_RELEASE) // TAB Switches which model is being transformed
 		changingModel = false;
-	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-		SwitchMode(0);
-		//Makes the model rotate counter cockwise
-	}
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
-		SwitchMode(1);
-		//Makes the model rotate counter cockwise
-	}
-	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
-		SwitchMode(2);
-		//Makes the model rotate counter cockwise
-	}
+
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) { SwitchMode(0); } // 1 Switches transformation mode to ROTATING
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) { SwitchMode(1); } // 2 Switches transformation mode to TRANSLATING
+	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) { SwitchMode(2); } // 3 Switches transformation mode to SCALING
+
+	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) { camera.ChangeCameraPosition(glm::vec3(0.0f,0.0f,0.0f), 90.0f); } // 1 Switches transformation mode to ROTATING
+	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) { camera.ChangeCameraPosition(glm::vec3(0.0f, 0.0f, 0.0f), 90.0f); } // 2 Switches transformation mode to TRANSLATING
+	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) { camera.ChangeCameraPosition(glm::vec3(0.0f, 0.0f, 0.0f), 90.0f); } // 3 Switches transformation mode to SCALING
+
+	float angle = .45f;
+
 	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-		//Makes the model rotate counter cockwise
-		float angle;
 		switch (currentmode)
 		{
 		case ROTATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = rotate_model(0.0f, -0.5f, 0.0f, angle);
 			break;
 		case TRANSLATING:
-			//apply_transformation(model);
 			all_models[current_model] = translate_model(-1.0f, 0.0f, 0.0f);
 			break;
 		default:
@@ -278,17 +272,12 @@ void processInput(GLFWwindow *window)
 		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
-		//Makes the model rotate counter cockwise
-		float angle;
 		switch (currentmode)
 		{
 		case ROTATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = rotate_model(0.0f,0.5f,0.0f,angle);
 			break;
 		case TRANSLATING:
-			//apply_transformation(model);
 			all_models[current_model] = translate_model(1.0f, 0.0f, 0.0f);
 			break;
 		default:
@@ -297,18 +286,12 @@ void processInput(GLFWwindow *window)
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
-		//Makes the model rotate counter cockwise
-		float angle;
 		switch (currentmode)
 		{
 		case ROTATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = rotate_model(0.5f, 0.0f, 0.0f, angle);
 			break;
 		case TRANSLATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = translate_model(0.0f, -0.5f, 0.0f);
 			break;
 		default:
@@ -317,18 +300,12 @@ void processInput(GLFWwindow *window)
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
-		//Makes the model rotate counter cockwise
-		float angle;
 		switch (currentmode)
 		{
 		case ROTATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = rotate_model(-0.5f, 0.0f, 0.0f, angle);
 			break;
 		case TRANSLATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = translate_model(0.0f, 0.5f, 0.0f);
 			break;
 		default:
@@ -337,18 +314,12 @@ void processInput(GLFWwindow *window)
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
-		//Makes the model rotate counter cockwise
-		float angle;
 		switch (currentmode)
 		{
 		case ROTATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = rotate_model(0.0f, 0.0f, 0.5f, angle);
 			break;
 		case TRANSLATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = translate_model(0.0f, 0.0f, 0.5f);
 			break;
 		case SCALING:
@@ -360,18 +331,12 @@ void processInput(GLFWwindow *window)
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
-		//Makes the model rotate counter cockwise
-		float angle;
 		switch (currentmode)
 		{
 		case ROTATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = rotate_model(0.0f, 0.0f, -0.5f, angle);
 			break;
 		case TRANSLATING:
-			//apply_transformation(model);
-			angle = 0.45;
 			all_models[current_model] = translate_model(0.0f, 0.0f, -0.5f);
 			break;
 		case SCALING:
