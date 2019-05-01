@@ -10,14 +10,12 @@ Developed by Thiago Hardt and João Rothmann
 OpenGL scene viewer, where you can move the camera around, and load objects (.obj files) in it.
 Made using OpenGL, and following the methods described in https://learnopengl.com/. 
 
-----
-
-## How To Use It
+### How To Use It
 Open the Visual Studio solution and compile the Exercise4 project.
 
 ## Controls
 
-#### Movement
+### Movement
 **W** - Move Upwards
 
 **A** - Move Leftwards
@@ -30,7 +28,7 @@ Open the Visual Studio solution and compile the Exercise4 project.
 
 **SCROLL** - Zoom In/Out
 
-#### Transform
+### Transform
 **TAB** - Switches Which Model To Transform
 
 **U** - Apply Transformation (All Modes)
@@ -52,7 +50,7 @@ Open the Visual Studio solution and compile the Exercise4 project.
 **3** - Change Transformation Mode to **SCALING**
 
 
-#### Cameras
+### Cameras
 **4** - Go To View: **FRONT**
 
 **5** - Go To View: **BACK**
