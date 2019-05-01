@@ -183,21 +183,25 @@ int main()
 
 void SwitchMode(int _mode_choice)
 {
+	string output = "";
 	switch (_mode_choice)
 	{
 	case 0:
-		currentmode = ROTATING;
+		currentmode = ROTATING; 
+		output = "ROTATING";
 		break;
 	case 1:
 		currentmode = TRANSLATING;
+		output = "TRANSLATING";
 		break;
 	case 2:
 		currentmode = SCALING;
+		output = "SCALING";
 		break;
 	default:
 		break;
 	}
-	cout << currentmode << endl;
+	cout << "Switching transforming mode to " << output << endl;
 }
 
 void SwitchModel() {
@@ -252,9 +256,13 @@ void processInput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) { SwitchMode(1); } // 2 Switches transformation mode to TRANSLATING
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) { SwitchMode(2); } // 3 Switches transformation mode to SCALING
 
-	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) { camera.ChangeCameraPosition(glm::vec3(0.0f,0.0f,0.0f), 90.0f); } // 1 Switches transformation mode to ROTATING
-	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) { camera.ChangeCameraPosition(glm::vec3(0.0f, 0.0f, 0.0f), 90.0f); } // 2 Switches transformation mode to TRANSLATING
-	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) { camera.ChangeCameraPosition(glm::vec3(0.0f, 0.0f, 0.0f), 90.0f); } // 3 Switches transformation mode to SCALING
+	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, 0.0f, 5.0f), -90.0f, 0.0f); } // 4 Go to view: FRONT
+	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, 0.0f, -5.0f), 90.0f, 0.0f); } // 5 Go to view: BACK
+	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(-5.0f, 0.0f, 0.0f), 0.0f, 0.0f); } // 6 Go to view: LEFT
+	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(5.0f, 0.0f, 0.0f), 180.0f, 0.0f); } // 7 Go to view: RIGHT
+	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, 5.0f, 0.0f), -90.0f, -90.0f); } // 8 Go to view: ABOVE
+	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, -5.0f, 0.0f), -90.0f, 90.0f); } // 9 Go to view: BELOW
+	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, 0.0f, 0.0f), -90.0f, 0.0f); } // 0 Go to view: ORIGIN
 
 	float angle = .45f;
 

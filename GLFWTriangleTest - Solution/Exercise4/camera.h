@@ -80,10 +80,17 @@ public:
 			Position += Right * velocity;
 	}
 
-	void ChangeCameraPosition(glm::vec3 _pos, float _angle)
+	void CameraViewpoint(glm::vec3 _pos,float _yaw, float _pitch)
 	{
 		Position = _pos;
-		Yaw = _angle;
+		Yaw = _yaw;
+		Pitch = _pitch;
+
+		if (Pitch > 89.0f)
+			Pitch = 89.0f;
+		if (Pitch < -89.0f)
+			Pitch = -89.0f;
+
 		updateCameraVectors();
 	}
 

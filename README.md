@@ -15,7 +15,9 @@ Made using OpenGL, and following the methods described in https://learnopengl.co
 ## How To Use It
 Open the Visual Studio solution and compile the Exercise4 project.
 
-### Controls
+## Controls
+
+#### Movement
 **W** - Move Upwards
 
 **A** - Move Leftwards
@@ -28,12 +30,7 @@ Open the Visual Studio solution and compile the Exercise4 project.
 
 **SCROLL** - Zoom In/Out
 
-**1** - Change Transformation Mode to **ROTATING**
-
-**2** - Change Transformation Mode to **TRANSLATING**
-
-**3** - Change Transformation Mode to **SCALING**
-
+#### Transform
 **TAB** - Switches Which Model To Transform
 
 **U** - Apply Transformation (All Modes)
@@ -47,3 +44,25 @@ Open the Visual Studio solution and compile the Exercise4 project.
 **K** - Apply Transformation (Translating and Rotating)
 
 **L** - Apply Transformation (Translating and Rotating)
+
+**1** - Change Transformation Mode to **ROTATING**
+
+**2** - Change Transformation Mode to **TRANSLATING**
+
+**3** - Change Transformation Mode to **SCALING**
+
+
+#### Cameras
+**4** - Go To View: **FRONT**
+
+**5** - Go To View: **BACK**
+
+**6** - Go To View: **LEFT**
+
+**7** - Go To View: **RIGHT**
+
+**8** - Go To View: **ABOVE**
+
+**9** - Go To View: **BELOW**
+
+**0** - Go To View: **ORIGIN**
