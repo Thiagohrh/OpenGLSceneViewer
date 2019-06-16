@@ -8,7 +8,7 @@
 #include <utilities\Shader.h>
 #include "camera.h"
 #include "Model.h"
-
+#include "SceneFromFile.h"
 
 #include <iostream>
 #include <vector>
@@ -18,7 +18,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 unsigned int loadTexture(char const * path);
-
+void LoadSceneCGS(string directory);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -70,8 +70,17 @@ int current_model = 0;
 
 bool changingModel = false;
 
+SceneFromFile currentScene;
+string sceneDirectory = "scenes/sceneTest.cgs";
+
+void LoadSceneCGS(string directory)
+{
+	currentScene.LoadFile(directory);
+}
+
 int main()
 {
+
 	// glfw: initialize and configure
 	// ------------------------------
 	glfwInit();
@@ -170,6 +179,7 @@ int main()
 		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
 	};
 
+	LoadSceneCGS(sceneDirectory);
 
 	// render loop
 	// -----------

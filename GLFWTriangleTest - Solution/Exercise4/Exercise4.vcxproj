@@ -116,14 +116,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\GLFWTriangleTest\glad.c" />
+    <ClCompile Include="json11.cpp" />
     <ClCompile Include="Main4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="json11.hpp" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="readerCGS.h" />
+    <ClInclude Include="SceneFromFile.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="scenes\sceneTest.cgs" />
     <None Include="shaders\basic_lighting.fs" />
     <None Include="shaders\basic_lighting.vs" />
     <None Include="shaders\camera.fs" />

@@ -21,6 +21,9 @@
     <ClCompile Include="..\GLFWTriangleTest\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="json11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -30,6 +33,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneFromFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json11.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="readerCGS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -54,5 +66,6 @@
     <None Include="shaders\shader.vs" />
     <None Include="shaders\shader2.fs" />
     <None Include="shaders\shader2.vs" />
+    <None Include="scenes\sceneTest.cgs" />
   </ItemGroup>
 </Project>
