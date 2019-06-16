@@ -33,4 +33,26 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\basic_lighting.fs" />
+    <None Include="shaders\basic_lighting.vs" />
+    <None Include="shaders\camera.fs" />
+    <None Include="shaders\camera.vs" />
+    <None Include="shaders\colors.fs" />
+    <None Include="shaders\colors.vs" />
+    <None Include="shaders\lamp.fs" />
+    <None Include="shaders\lamp.vs" />
+    <None Include="shaders\light_casters.fs" />
+    <None Include="shaders\light_casters.vs" />
+    <None Include="shaders\lighting_maps.fs" />
+    <None Include="shaders\lighting_maps.vs" />
+    <None Include="shaders\materials.fs" />
+    <None Include="shaders\materials.vs" />
+    <None Include="shaders\model_loading.fs" />
+    <None Include="shaders\model_loading.vs" />
+    <None Include="shaders\shader.fs" />
+    <None Include="shaders\shader.vs" />
+    <None Include="shaders\shader2.fs" />
+    <None Include="shaders\shader2.vs" />
+  </ItemGroup>
 </Project>
