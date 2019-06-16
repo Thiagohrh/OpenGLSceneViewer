@@ -1,12 +1,15 @@
 ﻿  Main4.cpp
 c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\mesh.h(88): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
 c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(164): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(263): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(264): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(268): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(269): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(271): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(272): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(281): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(184): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(185): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(186): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(278): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(279): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(283): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(284): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(286): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(287): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(296): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Exercise4.vcxproj -> C:\Users\thiag\Documents\GitHub\SceneViewer\OpenGLSceneViewer\GLFWTriangleTest - Solution\x64\Debug\Exercise4.exe
   Exercise4.vcxproj -> C:\Users\thiag\Documents\GitHub\SceneViewer\OpenGLSceneViewer\GLFWTriangleTest - Solution\x64\Debug\Exercise4.pdb (Partial PDB)
