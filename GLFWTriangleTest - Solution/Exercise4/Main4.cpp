@@ -30,7 +30,7 @@ void SwitchCamera();
 void SwitchCamera(int id);
 void ResetToCamera();
 void SwitchLight();
-void ModelCurveMove(float speed);
+void ModelCurveMove(float speed, int option);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -76,6 +76,7 @@ int currentmode = 0;
 // models variables
 std::vector<glm::mat4> modelMat4;
 std::vector<Model> modelObj;
+std::vector<ModelInfo> modelInfo;
 int modelsCount = 0;
 int current_model = 0;
 bool changingModel = false;
@@ -163,6 +164,7 @@ int main()
 	for each (ModelInfo var in currentScene.GetModels()) // Gathers all models' information
 	{
 		modelObj.push_back(var.GetModel());
+		modelInfo.push_back(var);
 
 		glm::vec3 translation(var.xpos, var.ypos, var.zpos);
 		glm::vec3 rotation(var.xrot, var.yrot, var.zrot);
@@ -374,7 +376,7 @@ int main()
 		lampShader.setMat4("model", model);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		bspline.draw();
+		//bspline.draw();
 		//ModelCurveMove();
 
 		glfwSwapBuffers(window);
@@ -449,12 +451,22 @@ glm::mat4 scale_model(float s)
 	return glm::scale(modelMat4[current_model], modelscale);
 }
 
-void ModelCurveMove(float speed)
+void ModelCurveMove(float speed, int option)
 {
 	currentAnimation += speed;
 	if (currentAnimation >= animationSize) currentAnimation = 0;
 	glm::vec3 a = animationpoints[currentAnimation];
-	modelMat4[current_model] = translate_model(a.x, a.y, a.z);
+
+	switch (option)
+	{
+	case 0:break;
+	case 1:modelMat4[current_model] = translate_model(a.x, a.y, a.z); break;
+	case 2:modelMat4[current_model] = translate_model(a.y, a.x, a.z); break;
+	case 3:modelMat4[current_model] = translate_model(a.y, a.z, a.x); break;
+	default:
+		break;
+	}
+	
 }
 
 void SwitchCamera()
@@ -528,11 +540,11 @@ void processInput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && camerasCount > 1 && !changingCamera) { SwitchCamera(); } // C Switches Camera
 	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && camerasCount > 1) { changingCamera = false; }
 
-	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && lightsCount > 1 && !changingLight) { SwitchLight(); } // L Switches Light
-	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_RELEASE && lightsCount > 1) { changingLight = false; }
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS && lightsCount > 1 && !changingLight) { SwitchLight(); } // X Switches Light
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_RELEASE && lightsCount > 1) { changingLight = false; }
 
 
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) { ModelCurveMove(5); } // L Switches Light
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) { ModelCurveMove(5, modelInfo[current_model].animationID); } // T Plays animation
 
 	float angle = .45f;
 
