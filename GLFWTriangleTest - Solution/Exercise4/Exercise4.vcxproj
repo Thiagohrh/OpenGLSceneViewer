@@ -116,11 +116,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\GLFWTriangleTest\glad.c" />
+    <ClCompile Include="Bezier.cpp" />
+    <ClCompile Include="BSpline.cpp" />
+    <ClCompile Include="Catmul.cpp" />
     <ClCompile Include="json11.cpp" />
     <ClCompile Include="Main4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bezier.h" />
+    <ClInclude Include="BSpline.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="Catmul.h" />
     <ClInclude Include="json11.hpp" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
