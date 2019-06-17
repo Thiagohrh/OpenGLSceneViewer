@@ -12,7 +12,9 @@ enum Camera_Movement {
 	FORWARD,
 	BACKWARD,
 	LEFT,
-	RIGHT
+	RIGHT,
+	UP,
+	DOWN
 };
 
 // Default camera values
@@ -78,6 +80,10 @@ public:
 			Position -= Right * velocity;
 		if (direction == RIGHT)
 			Position += Right * velocity;
+		if (direction == UP)
+			Position += Up * velocity;
+		if (direction == DOWN)
+			Position -= Up * velocity;
 	}
 
 	void CameraViewpoint(glm::vec3 _pos,float _yaw, float _pitch)

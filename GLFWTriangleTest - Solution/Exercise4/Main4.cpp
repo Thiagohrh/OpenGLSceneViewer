@@ -13,18 +13,24 @@
 #include <iostream>
 #include <vector>
 
+// declarations
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 unsigned int loadTexture(char const * path);
 void LoadSceneCGS(string directory);
+void SwitchCamera();
+void SwitchCamera(int id);
+void ResetToCamera();
+void SwitchLight();
+
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -56,19 +62,35 @@ struct Transformations
 	bool translate_down = false;
 };
 
-
 enum transformation_mode { ROTATING, TRANSLATING, SCALING };
 int currentmode = 0;
 
+// ------------------
+// models variables
 std::vector<glm::mat4> modelMat4;
 std::vector<Model> modelObj;
 int modelsCount = 0;
 int current_model = 0;
-
 bool changingModel = false;
 
+// ------------------
+// cameras variables
+std::vector<CameraInfo> cameraPositions;
+int camerasCount = 0;
+int currentCamera = 0;
+bool changingCamera = false;
+
+// ------------------
+// lights variables
+std::vector<LightInfo> lightPositions;
+int lightsCount = 0;
+int currentLight = 0;
+bool changingLight = false;
+
+// ------------------
+// scene variables
 SceneFromFile currentScene;
-string sceneDirectory = "scenes/sceneTest.cgs";
+string sceneDirectory = "scenes/sceneTest.cgs"; // Sets which scene will be loaded
 
 void LoadSceneCGS(string directory)
 {
@@ -77,7 +99,6 @@ void LoadSceneCGS(string directory)
 
 int main()
 {
-
 	// glfw: initialize and configure
 	// ------------------------------
 	glfwInit();
@@ -125,12 +146,11 @@ int main()
 
 	LoadSceneCGS(sceneDirectory);
 
-
-	for each (ModelInfo var in currentScene.GetModels())
+	for each (ModelInfo var in currentScene.GetModels()) // Gathers all models' information
 	{
 		modelObj.push_back(var.GetModel());
 
-		glm::vec3 translation(var.xpos,var.ypos,var.zpos);
+		glm::vec3 translation(var.xpos, var.ypos, var.zpos);
 		glm::vec3 rotation(var.xrot, var.yrot, var.zrot);
 		glm::vec3 scale(var.xsc, var.ysc, var.zsc);
 
@@ -147,6 +167,25 @@ int main()
 
 		cout << "Getting model: " << modelsCount << endl;
 	}
+
+	for each (CameraInfo var in currentScene.GetCameras()) // Gathers all cameras' information
+	{
+		cameraPositions.push_back(var);
+		camerasCount++;
+	}
+
+	for each (LightInfo var in currentScene.GetLights()) // Gathers all lights' information
+	{
+		lightPositions.push_back(var);
+		lightsCount++;
+	}
+
+	SwitchCamera(0);
+
+	//cout << "Models count: " << to_string(modelsCount) << endl;
+	//cout << "Cameras count: " << to_string(camerasCount) << endl;
+	//cout << "Camera positions size: " << to_string(cameraPositions.size()) << endl;
+	//cout << "Lights count: " << to_string(lightsCount) << endl;
 
 	float vertices[] = {
 		// positions          // normals           // texture coords
@@ -228,7 +267,6 @@ int main()
 	lightingShader.setInt("material.diffuse", 0);
 	lightingShader.setInt("material.specular", 1);
 
-
 	while (!glfwWindowShouldClose(window))
 	{
 		// per-frame time logic
@@ -246,22 +284,21 @@ int main()
 		glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// don't forget to enable shader before setting uniforms
-		// be sure to activate shader when setting uniforms/drawing objects
+		// light stuff
 		lightingShader.use();
-		lightingShader.setVec3("light.position", lightPos);
 		lightingShader.setVec3("viewPos", camera.Position);
+		lightingShader.setFloat("material.shininess", 30.0f);
 
-		// light properties
-		lightingShader.setVec3("light.ambient", 0.6f, 0.6f, 0.6f);
+		LightInfo lightInfo = lightPositions[currentLight];
+		glm::vec3 lightPosition = glm::vec3(lightInfo.xpos, lightInfo.ypos, lightInfo.zpos);
+
+		lightingShader.setVec3("light.position", lightPosition);
+		lightingShader.setVec3("light.ambient", .6f, .6f, .6f);
 		lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
 		lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 		lightingShader.setFloat("light.constant", 1.0f);
 		lightingShader.setFloat("light.linear", 0.09f);
 		lightingShader.setFloat("light.quadratic", 0.032f);
-
-		// material properties
-		lightingShader.setFloat("material.shininess", 50.0f);
 
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -276,35 +313,28 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specularMap);
 
-		// render the loaded model
-
+		// render all models
 		for (int i = 0; i < modelsCount; i++)
 		{
 			lightingShader.setMat4("model", modelMat4[i]);
 			modelObj[i].Draw(lightingShader);
 		}
-			
 
-		glBindVertexArray(cubeVAO);
 		lampShader.use();
 		lampShader.setMat4("projection", projection);
 		lampShader.setMat4("view", view);
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-		lampShader.setMat4("model", model);
 
 		glBindVertexArray(lightVAO);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPosition);
+		model = glm::scale(model, glm::vec3(0.2f));
+		lampShader.setMat4("model", model);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-
-	// glfw: terminate, clearing all previously allocated GLFW resources.
-	// ------------------------------------------------------------------
 	glfwTerminate();
 	return 0;
 }
@@ -335,12 +365,26 @@ void SwitchMode(int _mode_choice)
 void SwitchModel() {
 	if (!changingModel)
 	{
-		if (current_model < modelsCount) current_model++;
-		else current_model = 0;
 		changingModel = true;
+		current_model++;
+		if (current_model >= modelsCount) current_model = 0;
+		cout << "Changed to model: " << current_model << endl;
 	}
 }
 
+void SwitchLight()
+{
+	changingLight = true;
+	currentLight++;
+	if (currentLight >= lightsCount) currentLight = 0;
+
+	cout << "Changed to light: " << currentLight << endl;
+
+	LightInfo li = lightPositions[currentLight];
+
+	glm::vec3 pos = glm::vec3(li.xpos, li.ypos, li.zpos);
+
+}
 
 glm::mat4 rotate_model(float rx, float ry, float rz, float _angle)
 {
@@ -359,6 +403,44 @@ glm::mat4 scale_model(float s)
 	return glm::scale(modelMat4[current_model], modelscale);
 }
 
+void SwitchCamera()
+{
+	changingCamera = true;
+	currentCamera++;
+	if (currentCamera >= camerasCount) currentCamera = 0;
+
+	cout << "Changed to camera: " << currentCamera << endl;
+
+	CameraInfo ci = cameraPositions[currentCamera];
+
+	glm::vec3 pos = glm::vec3(ci.xpos, ci.ypos,ci.zpos);
+	float yaw = ci.yaw; float pitch = ci.pitch;
+
+	camera.CameraViewpoint(pos, yaw, pitch);
+}
+
+void SwitchCamera(int id)
+{
+	changingCamera = true;
+	if (id < camerasCount) {
+		CameraInfo ci = cameraPositions[currentCamera];
+
+		glm::vec3 pos = glm::vec3(ci.xpos, ci.ypos, ci.zpos);
+		float yaw = ci.yaw; float pitch = ci.pitch;
+
+		camera.CameraViewpoint(pos, yaw, pitch);
+		cout << "Changed to camera: " << currentCamera << endl;
+	}
+	else {
+		cout << "There isn't a camera with the id: " << id << endl;
+	}
+
+}
+
+void ResetToCamera()
+{
+	SwitchCamera(currentCamera);
+}
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
@@ -375,22 +457,25 @@ void processInput(GLFWwindow *window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) // D Moves rightward
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) // SPACE Moves upwards
+		camera.ProcessKeyboard(UP, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) // LEFT SHIFT Moves downwards
+		camera.ProcessKeyboard(DOWN, deltaTime);
+
 	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) // TAB Switches which model is being transformed
 		SwitchModel();
-	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_RELEASE) // TAB Switches which model is being transformed
+	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_RELEASE)
 		changingModel = false;
 
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) { SwitchMode(0); } // 1 Switches transformation mode to ROTATING
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) { SwitchMode(1); } // 2 Switches transformation mode to TRANSLATING
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) { SwitchMode(2); } // 3 Switches transformation mode to SCALING
 
-	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, 0.0f, 5.0f), -90.0f, 0.0f); } // 4 Go to view: FRONT
-	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, 0.0f, -5.0f), 90.0f, 0.0f); } // 5 Go to view: BACK
-	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(-5.0f, 0.0f, 0.0f), 0.0f, 0.0f); } // 6 Go to view: LEFT
-	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(5.0f, 0.0f, 0.0f), 180.0f, 0.0f); } // 7 Go to view: RIGHT
-	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, 5.0f, 0.0f), -90.0f, -90.0f); } // 8 Go to view: ABOVE
-	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, -5.0f, 0.0f), -90.0f, 90.0f); } // 9 Go to view: BELOW
-	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) { camera.CameraViewpoint(glm::vec3(0.0f, 0.0f, 0.0f), -90.0f, 0.0f); } // 0 Go to view: ORIGIN
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && camerasCount > 1 && !changingCamera) { SwitchCamera(); } // C Switches Camera
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && camerasCount > 1) { changingCamera = false; }
+
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && lightsCount > 1 && !changingLight) { SwitchLight(); } // L Switches Light
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_RELEASE && lightsCount > 1) { changingLight = false; }
 
 	float angle = .45f;
 
@@ -483,7 +568,6 @@ void processInput(GLFWwindow *window)
 		}
 	}
 }
-
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
