@@ -140,4 +140,9 @@ void BSpline::drawControlPoints()
 	glBindVertexArray(0);
 }
 
+vector<glm::vec3> BSpline::GetPointsFromCurve()
+{
+	return curve;
+}
+
 

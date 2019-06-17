@@ -22,6 +22,7 @@ public:
 	void draw();
 	void addPoint(glm::vec3 p);
 	void drawControlPoints();
+	vector<glm::vec3> GetPointsFromCurve();
 protected:
 	vector <glm::vec3> points; //pontos de controle
 	vector <glm::vec3> curve; //pontos da curva gerada

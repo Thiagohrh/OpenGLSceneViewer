@@ -30,6 +30,7 @@ void SwitchCamera();
 void SwitchCamera(int id);
 void ResetToCamera();
 void SwitchLight();
+void ModelCurveMove(float speed);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -97,6 +98,13 @@ bool changingLight = false;
 // scene variables
 SceneFromFile currentScene;
 string sceneDirectory = "scenes/sceneTest.cgs"; // Sets which scene will be loaded
+
+
+// ------------------
+// animations variables
+vector<glm::vec3> animationpoints;
+int animationSize;
+int currentAnimation;
 
 void LoadSceneCGS(string directory)
 {
@@ -261,6 +269,11 @@ int main()
 	bezier.genCurve(100);
 	catmul.genCurve(100);
 
+	animationpoints = bspline.GetPointsFromCurve();
+	animationSize = animationpoints.size();
+
+	cout << "Animation size: " << animationSize << endl;
+
 	unsigned int VBO, cubeVAO;
 	glGenVertexArrays(1, &cubeVAO);
 	glGenBuffers(1, &VBO);
@@ -362,6 +375,7 @@ int main()
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		bspline.draw();
+		//ModelCurveMove();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -423,6 +437,7 @@ glm::mat4 rotate_model(float rx, float ry, float rz, float _angle)
 }
 glm::mat4 translate_model(float tx, float ty, float tz)
 {
+	cout << "translating model" << endl;
 	glm::vec3 pos(tx, ty, tz);
 	return glm::translate(modelMat4[current_model], pos);
 }
@@ -432,6 +447,14 @@ glm::mat4 scale_model(float s)
 	glm::vec3 modelscale(s, s, s);
 
 	return glm::scale(modelMat4[current_model], modelscale);
+}
+
+void ModelCurveMove(float speed)
+{
+	currentAnimation += speed;
+	if (currentAnimation >= animationSize) currentAnimation = 0;
+	glm::vec3 a = animationpoints[currentAnimation];
+	modelMat4[current_model] = translate_model(a.x, a.y, a.z);
 }
 
 void SwitchCamera()
@@ -507,6 +530,9 @@ void processInput(GLFWwindow *window)
 
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && lightsCount > 1 && !changingLight) { SwitchLight(); } // L Switches Light
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_RELEASE && lightsCount > 1) { changingLight = false; }
+
+
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) { ModelCurveMove(5); } // L Switches Light
 
 	float angle = .45f;
 
