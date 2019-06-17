@@ -1,12 +1,14 @@
 ﻿  Main4.cpp
-d:\users\pedro\documents\github\openglsceneviewer\glfwtriangletest - solution\exercise4\mesh.h(88): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-d:\users\pedro\documents\github\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(228): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\users\pedro\documents\github\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(494): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\users\pedro\documents\github\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(495): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\users\pedro\documents\github\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(499): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\users\pedro\documents\github\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(500): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\users\pedro\documents\github\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(502): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\users\pedro\documents\github\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(503): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\users\pedro\documents\github\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(512): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Exercise4.vcxproj -> D:\Users\Pedro\Documents\GitHub\OpenGLSceneViewer\GLFWTriangleTest - Solution\x64\Debug\Exercise4.exe
-  Exercise4.vcxproj -> D:\Users\Pedro\Documents\GitHub\OpenGLSceneViewer\GLFWTriangleTest - Solution\x64\Debug\Exercise4.pdb (Partial PDB)
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\mesh.h(88): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(188): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(188): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(259): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(531): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(532): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(536): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(537): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(539): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(540): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\thiag\documents\github\sceneviewer\openglsceneviewer\glfwtriangletest - solution\exercise4\main4.cpp(549): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Exercise4.vcxproj -> C:\Users\thiag\Documents\GitHub\SceneViewer\OpenGLSceneViewer\GLFWTriangleTest - Solution\x64\Debug\Exercise4.exe
+  Exercise4.vcxproj -> C:\Users\thiag\Documents\GitHub\SceneViewer\OpenGLSceneViewer\GLFWTriangleTest - Solution\x64\Debug\Exercise4.pdb (Partial PDB)

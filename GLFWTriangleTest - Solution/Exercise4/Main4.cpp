@@ -13,6 +13,13 @@
 #include <iostream>
 #include <vector>
 
+//Classe de curvas
+#include "BSpline.h"
+#include "Bezier.h"
+#include "Catmul.h"
+
+
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -22,6 +29,7 @@ unsigned int loadTexture(char const * path);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
 
 // camera
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
@@ -170,6 +178,29 @@ int main()
 		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
 	};
 
+	//Control points for the curves.
+	float controlPoints[] = {
+		0.8 ,-1.88, 0.79,-1.74, 1.51,-1.36, 1.70,-0.80, 1.94, 0.07,
+		1.76, 0.96, 1.47, 1.65, 0.96, 1.96, 0.0 , 2.07,-0.74, 2.18,
+		-1.42, 2.08,-1.89, 1.63,-2.01, 0.87,-1.68, 0.38,-1.05, 0.26,
+		-0.45,-0.15,-0.43,-0.50,-0.68,-0.79,-0.80,-1.27,-0.70,-1.56,
+		-0.62,-1.92,-0.35,-1.92, 0.03,-1.90, 0.25,-1.90
+	};
+
+	BSpline bspline;
+	Bezier bezier;
+	Catmul catmul;
+
+	for (int i = 0; i < 48; i += 2)
+	{
+		bspline.addPoint(glm::vec3(controlPoints[i], controlPoints[i + 1], 0.0));
+		bezier.addPoint(glm::vec3(controlPoints[i], controlPoints[i + 1], 0.0));
+		catmul.addPoint(glm::vec3(controlPoints[i], controlPoints[i + 1], 0.0));
+	}
+
+	bspline.genCurve(100);
+	bezier.genCurve(100);
+	catmul.genCurve(100);
 
 	// render loop
 	// -----------
@@ -287,6 +318,12 @@ int main()
 
 		glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//In order to draw the curves.
+		bspline.draw();
+		//bezier.draw();
+		//bspline.drawControlPoints();
+		//catmul.draw();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
