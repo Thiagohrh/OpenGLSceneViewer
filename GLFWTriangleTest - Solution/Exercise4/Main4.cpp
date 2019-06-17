@@ -60,12 +60,9 @@ struct Transformations
 enum transformation_mode { ROTATING, TRANSLATING, SCALING };
 int currentmode = 0;
 
-glm::mat4 model;
-glm::mat4 model2;
-
-glm::vec3 modelscale(.2f, .2f, .2f);
-
-std::vector<glm::mat4> all_models;
+std::vector<glm::mat4> modelMat4;
+std::vector<Model> modelObj;
+int modelsCount = 0;
 int current_model = 0;
 
 bool changingModel = false;
@@ -126,13 +123,30 @@ int main()
 	Shader lightingShader("shaders/light_casters.vs", "shaders/light_casters.fs");
 	Shader lampShader("shaders/lamp.vs", "shaders/lamp.fs");
 
-	// load models
-	// -----------
-	Model ourModel("models/nanosuit/nanosuit.obj");
+	LoadSceneCGS(sceneDirectory);
 
 
-	// draw in wireframe
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	for each (ModelInfo var in currentScene.GetModels())
+	{
+		modelObj.push_back(var.GetModel());
+
+		glm::vec3 translation(var.xpos,var.ypos,var.zpos);
+		glm::vec3 rotation(var.xrot, var.yrot, var.zrot);
+		glm::vec3 scale(var.xsc, var.ysc, var.zsc);
+
+		glm::mat4 modelmat = glm::mat4(1.0f);
+		modelmat = glm::translate(modelmat, translation);
+		modelmat = glm::rotate(modelmat, glm::radians(var.xrot), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelmat = glm::rotate(modelmat, glm::radians(var.yrot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelmat = glm::rotate(modelmat, glm::radians(var.zrot), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelmat = glm::scale(modelmat, scale);
+
+		modelMat4.push_back(modelmat);
+
+		modelsCount++;
+
+		cout << "Getting model: " << modelsCount << endl;
+	}
 
 	float vertices[] = {
 		// positions          // normals           // texture coords
@@ -178,22 +192,6 @@ int main()
 		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
 	};
-
-	LoadSceneCGS(sceneDirectory);
-
-	// render loop
-	// -----------
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-	model = glm::scale(model, modelscale);	// it's a bit too big for our scene, so scale it down
-
-	model2 = glm::mat4(1.0f);
-	model2 = glm::translate(model2, glm::vec3(1.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-	model2 = glm::scale(model2, modelscale);	// it's a bit too big for our scene, so scale it down
-
-	all_models.push_back(model);
-	all_models.push_back(model2);
-
 
 	unsigned int VBO, cubeVAO;
 	glGenVertexArrays(1, &cubeVAO);
@@ -280,17 +278,18 @@ int main()
 
 		// render the loaded model
 
-		for (int i = 0; i < all_models.size(); i++)
+		for (int i = 0; i < modelsCount; i++)
 		{
-			lightingShader.setMat4("model", all_models[i]);
-			ourModel.Draw(lightingShader);
+			lightingShader.setMat4("model", modelMat4[i]);
+			modelObj[i].Draw(lightingShader);
 		}
+			
 
 		glBindVertexArray(cubeVAO);
 		lampShader.use();
 		lampShader.setMat4("projection", projection);
 		lampShader.setMat4("view", view);
-		model = glm::mat4(1.0f);
+		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 		lampShader.setMat4("model", model);
@@ -336,7 +335,7 @@ void SwitchMode(int _mode_choice)
 void SwitchModel() {
 	if (!changingModel)
 	{
-		if (current_model == 0) current_model = 1;
+		if (current_model < modelsCount) current_model++;
 		else current_model = 0;
 		changingModel = true;
 	}
@@ -345,19 +344,19 @@ void SwitchModel() {
 
 glm::mat4 rotate_model(float rx, float ry, float rz, float _angle)
 {
-	return glm::rotate(all_models[current_model], glm::radians(_angle), glm::vec3(rx, ry, rz));
+	return glm::rotate(modelMat4[current_model], glm::radians(_angle), glm::vec3(rx, ry, rz));
 }
 glm::mat4 translate_model(float tx, float ty, float tz)
 {
 	glm::vec3 pos(tx, ty, tz);
-	return glm::translate(all_models[current_model], pos);
+	return glm::translate(modelMat4[current_model], pos);
 }
 glm::mat4 scale_model(float s)
 {
 
 	glm::vec3 modelscale(s, s, s);
 
-	return glm::scale(all_models[current_model], modelscale);
+	return glm::scale(modelMat4[current_model], modelscale);
 }
 
 
@@ -399,10 +398,10 @@ void processInput(GLFWwindow *window)
 		switch (currentmode)
 		{
 		case ROTATING:
-			all_models[current_model] = rotate_model(0.0f, -0.5f, 0.0f, angle);
+			modelMat4[current_model] = rotate_model(0.0f, -0.5f, 0.0f, angle);
 			break;
 		case TRANSLATING:
-			all_models[current_model] = translate_model(-1.0f, 0.0f, 0.0f);
+			modelMat4[current_model] = translate_model(-1.0f, 0.0f, 0.0f);
 			break;
 		default:
 			break;
@@ -412,10 +411,10 @@ void processInput(GLFWwindow *window)
 		switch (currentmode)
 		{
 		case ROTATING:
-			all_models[current_model] = rotate_model(0.0f, 0.5f, 0.0f, angle);
+			modelMat4[current_model] = rotate_model(0.0f, 0.5f, 0.0f, angle);
 			break;
 		case TRANSLATING:
-			all_models[current_model] = translate_model(1.0f, 0.0f, 0.0f);
+			modelMat4[current_model] = translate_model(1.0f, 0.0f, 0.0f);
 			break;
 		default:
 			break;
@@ -426,10 +425,10 @@ void processInput(GLFWwindow *window)
 		switch (currentmode)
 		{
 		case ROTATING:
-			all_models[current_model] = rotate_model(0.5f, 0.0f, 0.0f, angle);
+			modelMat4[current_model] = rotate_model(0.5f, 0.0f, 0.0f, angle);
 			break;
 		case TRANSLATING:
-			all_models[current_model] = translate_model(0.0f, -0.5f, 0.0f);
+			modelMat4[current_model] = translate_model(0.0f, -0.5f, 0.0f);
 			break;
 		default:
 			break;
@@ -440,10 +439,10 @@ void processInput(GLFWwindow *window)
 		switch (currentmode)
 		{
 		case ROTATING:
-			all_models[current_model] = rotate_model(-0.5f, 0.0f, 0.0f, angle);
+			modelMat4[current_model] = rotate_model(-0.5f, 0.0f, 0.0f, angle);
 			break;
 		case TRANSLATING:
-			all_models[current_model] = translate_model(0.0f, 0.5f, 0.0f);
+			modelMat4[current_model] = translate_model(0.0f, 0.5f, 0.0f);
 			break;
 		default:
 			break;
@@ -454,13 +453,13 @@ void processInput(GLFWwindow *window)
 		switch (currentmode)
 		{
 		case ROTATING:
-			all_models[current_model] = rotate_model(0.0f, 0.0f, 0.5f, angle);
+			modelMat4[current_model] = rotate_model(0.0f, 0.0f, 0.5f, angle);
 			break;
 		case TRANSLATING:
-			all_models[current_model] = translate_model(0.0f, 0.0f, 0.5f);
+			modelMat4[current_model] = translate_model(0.0f, 0.0f, 0.5f);
 			break;
 		case SCALING:
-			all_models[current_model] = scale_model(.999f);
+			modelMat4[current_model] = scale_model(.999f);
 			break;
 		default:
 			break;
@@ -471,13 +470,13 @@ void processInput(GLFWwindow *window)
 		switch (currentmode)
 		{
 		case ROTATING:
-			all_models[current_model] = rotate_model(0.0f, 0.0f, -0.5f, angle);
+			modelMat4[current_model] = rotate_model(0.0f, 0.0f, -0.5f, angle);
 			break;
 		case TRANSLATING:
-			all_models[current_model] = translate_model(0.0f, 0.0f, -0.5f);
+			modelMat4[current_model] = translate_model(0.0f, 0.0f, -0.5f);
 			break;
 		case SCALING:
-			all_models[current_model] = scale_model(1.001f);
+			modelMat4[current_model] = scale_model(1.001f);
 			break;
 		default:
 			break;

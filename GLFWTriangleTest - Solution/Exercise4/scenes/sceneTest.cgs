@@ -1,58 +1,18 @@
 #model
-models/nanosuit.obj
+models/nanosuit/nanosuit.obj
 0
-1
-2
-1
-5
-15
-5
-1
-1
-1
+2 2 1
+90 0 0
+.2 .2 .2
 #model
-models/nanosuit.obj
+models/nanosuit/nanosuit.obj
 0
-1
-2
-1
-5
-15
-5
-1
-1
-1
-#model
-models/nanosuit.obj
-0
-1
-2
-1
-5
-15
-5
-1
-1
-1
-#model
-models/nanosuit.obj
-0
-1
-2
-1
-5
-15
-5
-1
-1
-1
+2 2 1
+0 90 0
+.2 .2 .2
+
 #light
-3
-3
-3
+3 3 3
 #camera
-2
-2
-2
-1
-5
+2 2 2
+1 5

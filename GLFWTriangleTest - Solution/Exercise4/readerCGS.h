@@ -54,21 +54,15 @@ struct ModelInfo {
 	int animationID;
 	string modelDirectory;
 	AnimationEquation animation;
-	ModelInfo() {}
-	ModelInfo(float x, float y, float z, float xr, float yr, float zr, float xs, float ys, float zs, string model)
-	{
-		xpos = x;
-		ypos = y;
-		zpos = z;
-		xrot = xr;
-		yrot = yr;
-		zrot = zr;
-		xsc = xs;
-		ysc = ys;
-		zsc = zs;
-		modelDirectory = model;
 
-		animation = GetAnimation(1); // Temporary
+	ModelInfo()
+	{
+	}
+
+	Model GetModel()
+	{
+		Model m(modelDirectory);
+		return m;
 	}
 
 	AnimationEquation GetAnimation(int equationID)
@@ -137,16 +131,16 @@ SceneInfo ReadCGS(string directory)
 			ModelInfo newModel;
 			info.pop_front();
 			newModel.modelDirectory = info.front(); info.pop_front();
-			newModel.animationID = stoi(info.front()); info.pop_front();
-			newModel.xpos = stoi(info.front()); info.pop_front();
-			newModel.ypos = stoi(info.front()); info.pop_front();
-			newModel.zpos = stoi(info.front()); info.pop_front();
-			newModel.xrot = stoi(info.front()); info.pop_front();
-			newModel.yrot = stoi(info.front()); info.pop_front();
-			newModel.zrot = stoi(info.front()); info.pop_front();
-			newModel.xsc = stoi(info.front()); info.pop_front();
-			newModel.ysc = stoi(info.front()); info.pop_front();
-			newModel.zsc = stoi(info.front()); info.pop_front();
+			newModel.animationID = stof(info.front()); info.pop_front();
+			newModel.xpos = stof(info.front()); info.pop_front();
+			newModel.ypos = stof(info.front()); info.pop_front();
+			newModel.zpos = stof(info.front()); info.pop_front();
+			newModel.xrot = stof(info.front()); info.pop_front();
+			newModel.yrot = stof(info.front()); info.pop_front();
+			newModel.zrot = stof(info.front()); info.pop_front();
+			newModel.xsc = stof(info.front()); info.pop_front();
+			newModel.ysc = stof(info.front()); info.pop_front();
+			newModel.zsc = stof(info.front()); info.pop_front();
 			newModel.GetAnimation(newModel.animationID);
 			scene.models.push_back(newModel);
 
@@ -156,9 +150,9 @@ SceneInfo ReadCGS(string directory)
 		{
 			LightInfo newLight;
 			info.pop_front();
-			newLight.xpos = stoi(info.front()); info.pop_front();
-			newLight.ypos = stoi(info.front()); info.pop_front();
-			newLight.zpos = stoi(info.front()); info.pop_front();
+			newLight.xpos = stof(info.front()); info.pop_front();
+			newLight.ypos = stof(info.front()); info.pop_front();
+			newLight.zpos = stof(info.front()); info.pop_front();
 			scene.lights.push_back(newLight);
 
 		}
@@ -167,11 +161,11 @@ SceneInfo ReadCGS(string directory)
 		{
 			CameraInfo newCamera;
 			info.pop_front();
-			newCamera.xpos = stoi(info.front()); info.pop_front();
-			newCamera.ypos = stoi(info.front()); info.pop_front();
-			newCamera.zpos = stoi(info.front()); info.pop_front();
-			newCamera.yaw = stoi(info.front()); info.pop_front();
-			newCamera.pitch = stoi(info.front()); info.pop_front();
+			newCamera.xpos = stof(info.front()); info.pop_front();
+			newCamera.ypos = stof(info.front()); info.pop_front();
+			newCamera.zpos = stof(info.front()); info.pop_front();
+			newCamera.yaw = stof(info.front()); info.pop_front();
+			newCamera.pitch = stof(info.front()); info.pop_front();
 			scene.cameras.push_back(newCamera);
 
 		}

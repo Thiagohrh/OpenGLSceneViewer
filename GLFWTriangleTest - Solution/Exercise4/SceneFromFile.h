@@ -17,6 +17,10 @@ public:
 	void SetInitialCamera(CameraInfo camera) { initialCamera = camera; }
 	void LoadFile(string directory);
 
+	list<ModelInfo> GetModels() { return models; }
+	list<LightInfo> GetLights() { return lights; }
+	list<CameraInfo> GetCameras() { return cameras; }
+
 private:
 	list<ModelInfo> models;
 	list<LightInfo> lights;
