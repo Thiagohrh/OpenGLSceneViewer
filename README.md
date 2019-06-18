@@ -11,7 +11,7 @@ OpenGL scene viewer, where you can move the camera around, and load objects (.ob
 Made using OpenGL, and following the methods described in https://learnopengl.com/. 
 
 ### How To Use It
-Open the Visual Studio solution and compile the Exercise4 project.
+Open the Visual Studio solution and compile the Exercise4 project. There is a *sceneDirectory* variable that defines the path to the file that will be used to load the scene. The program uses formats in .cgs format, which is a unique format for this project. There is a sample file in the *scenes* folder. The structure of the file is explained within the *readerCGS.h* header
 
 ## Controls
 
@@ -23,6 +23,10 @@ Open the Visual Studio solution and compile the Exercise4 project.
 **S** - Move Downwards
 
 **D** - Move Rightwards
+
+**SPACE** - Move Upwards
+
+**L SHIFT** - Move Downwards
 
 **MOUSE** - Look Around
 
@@ -43,24 +47,14 @@ Open the Visual Studio solution and compile the Exercise4 project.
 
 **L** - Apply Transformation (Translating and Rotating)
 
+**C** - Cycle Through Cameras
+
+**X** - Cycle Through Lights
+
+**T** - Animate In Parametric Curve
+
 **1** - Change Transformation Mode to **ROTATING**
 
 **2** - Change Transformation Mode to **TRANSLATING**
 
 **3** - Change Transformation Mode to **SCALING**
-
-
-### Cameras
-**4** - Go To View: **FRONT**
-
-**5** - Go To View: **BACK**
-
-**6** - Go To View: **LEFT**
-
-**7** - Go To View: **RIGHT**
-
-**8** - Go To View: **ABOVE**
-
-**9** - Go To View: **BELOW**
-
-**0** - Go To View: **ORIGIN**
